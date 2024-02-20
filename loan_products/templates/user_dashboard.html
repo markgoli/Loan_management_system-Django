@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col">
+      <h1>User Dashboard</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h5>User Details:</h5>
+      <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <td>
+                    First Name: {{ user_details.first_name }}
+                </td>
+                <td>
+                    Last Name: {{ user_details.last_name }}
+                </td>
+            </tr>
+            <tr>
+                <td>Phone: {{ user_details.phone_number }} </td>
+                <td>Gender: {{ user_details.gender }}</td>
+            </tr>
+        </tbody>
+      </table>
+      <!-- Add more user details as needed -->
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col">
+      <h5>User Loans:</h5>
+      {% if user_details.loans.all %}
+        <ul>
+          {% for loan in user_details.loans.all %}
+            <li>Loan ID: {{ loan.id }} - Amount: {{ loan.applied_amount }}</li>
+            <!-- Add more loan details as needed -->
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No loans found for this user.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Add additional sections or information based on your requirements -->
+
+{% endblock %}

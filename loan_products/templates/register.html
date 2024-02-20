@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col">
+      <h2>Register</h2>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'register' %}" class="col-md-6">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {{ form.non_field_errors.as_text }}
+    </div>
+  {% endif %}
+
+        <!-- Additional Fields for User Details -->
+        <div class="form-group">
+          <label for="id_first_name">First Name:</label>
+          <input type="text" name="first_name" id="id_first_name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="id_last_name">Last Name:</label>
+          <input type="text" name="last_name" id="id_last_name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="id_username">Username:</label>
+          <input type="text" name="username" id="id_username" class="form-control" required>
+          {% if form.username.errors %}
+            <small class="text-danger">{{ form.username.errors.0 }}</small>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="id_phone_number">Phone Number:</label>
+          <input type="text" name="phone_number" id="id_phone_number" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="id_gender">Gender:</label>
+          <select name="gender" id="id_gender" class="form-control" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+        </div>
+    
+
+    <div class="form-group">
+      <label for="id_password1">Password:</label>
+      <input type="password" name="password1" id="id_password1" class="form-control" required>
+      {% if form.password1.errors %}
+        <small class="text-danger">{{ form.password1.errors.0 }}</small>
+      {% endif %}
+    </div>
+    <div class="form-group">
+      <label for="id_password2">Confirm Password:</label>
+      <input type="password" name="password2" id="id_password2" class="form-control" required>
+      {% if form.password2.errors %}
+        <small class="text-danger">{{ form.password2.errors.0 }}</small>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-success my-2">Register</button>
+  </form>
+{% endblock %}

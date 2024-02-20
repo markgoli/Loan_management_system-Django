@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+{% block title %}Loan Products - Your Site{% endblock %}
+{% block content %}
+<div class="row mb-3">
+    <div class="col">
+      <h1>Loan Products</h1>
+    </div>
+    {% if user.is_authenticated %}
+      {% if user_details.is_admin %}
+        <div class="col text-right">
+          <a class="btn btn-primary" href="{% url 'new_loan_product' %}">Add New Loan Product</a>
+        </div>
+        {% else %}
+        <div class="col-md-4">
+          <a href="{% url 'apply_for_loan' %}" class="btn btn-primary">
+            Apply For Loan
+          </a>
+        </div>
+        {% endif %}
+      {% else %}
+    <div class="col text-right">
+      <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+    </div>
+    {% endif %}
+  </div>
+  
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Minimum Amount</th>
+        <th>Maximum Amount</th>
+        <th>Interest Rate </th>
+        <th>Interest Type</th>
+        <th>Max Term</th>
+        <th>Term Period</th>
+        <th>Late Payment Penalties</th>
+        {% if user.is_authenticated %}
+        {% if user_details.is_admin %}
+            <th>Actions</th>
+            {% endif %}
+        {% endif %}
+    </tr>    
+    </thead>
+    <tbody>
+      {% for loan_product in loan_products %}
+        <tr>
+          <td>{{ loan_product.product_name }}</td>
+          <td>{{ loan_product.minimum_amount }}</td>
+          <td>{{ loan_product.maximum_amount }}</td>
+          <td>{{ loan_product.interest_rate_per_year }}%</td>
+          <td>{{ loan_product.interest_type }}</td>
+          <td>{{ loan_product.max_term }}</td>
+          <td>{{ loan_product.term_period }}</td>
+          <td>{{ loan_product.late_payment_penalties }}</td>
+          {% if user.is_authenticated %}
+          {% if user_details.is_admin %}
+          <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'edit_loan_product' loan_product.id %}">Edit</a>
+                    <a class="dropdown-item" href="{% url 'delete_loan_product' loan_product.id %}">Delete</a>
+                </div>
+            </div>
+        </td>
+        {% endif %}
+          {% endif %}
+      </tr>    
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  
+{% endblock %}

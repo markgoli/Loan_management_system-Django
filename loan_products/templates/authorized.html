@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}Loan Management System{% endblock %}
+
+{% block content %}
+<div class="row mb-3">
+    <div class="col">
+      <h1>User Session</h1>
+    </div>
+    <p>
+        {{ session_token }}
+    </p>
+  </div>
+
+  <form action="{% url 'set_session_token' %}" method="post">
+    <!-- set session token -->
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_username">Set session token:</label>
+      <input type="text" name="session_token" id="id_username" class="form-control" required>
+      <button class="btn btn-success">Set session</button>
+    </div>
+  </form>
+  {% endblock %}

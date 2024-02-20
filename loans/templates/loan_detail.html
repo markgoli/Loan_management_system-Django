@@ -1,0 +1,258 @@
+{% extends 'layout.html' %}
+
+{% block title %}Loan Details - Your Site{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1>Loan Details</h1>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs mt-4" id="myTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="loan-details-tab" data-bs-toggle="tab" href="#loan-details" role="tab" aria-controls="loan-details" aria-selected="true">Loan Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="approval-tab" data-bs-toggle="tab" href="#approval" role="tab" aria-controls="approval" aria-selected="false">Approval</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="collateral-tab" data-bs-toggle="tab" href="#collateral" role="tab" aria-controls="collateral" aria-selected="false">Repayment schedule</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="repayments-tab" data-bs-toggle="tab" href="#repayments" role="tab" aria-controls="repayments" aria-selected="false">Repayments</a>
+            </li>
+          
+        </ul>
+
+        <!-- Tab content -->
+        <div class="tab-content mt-3">
+            <!-- Loan Details Tab -->
+            <div class="tab-pane fade show active" id="loan-details" role="tabpanel" aria-labelledby="loan-details-tab">
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-striped ">
+                            <tbody>
+                                <tr>
+                                    <td>Borrower:</td>
+                                    <td>{{ loan.borrower }}</td>
+                                    <td>Loan ID:</td>
+                                    <td>{{ loan.id }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Loan Product:</td>
+                                    <td>{{ loan.loan_product.product_name }}</td>
+                                    <td>Applied Amount:</td>
+                                    <td>{{ loan.applied_amount }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status:</td>
+                                    <td>{{ loan.status }}</td>
+                                    <td>Total Principal Paid:</td>
+                                    <td>{{ loan.total_principal_paid }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Interest Paid:</td>
+                                    <td>{{ loan.total_interest_paid }}</td>
+                                    <td>Total Penalties Paid:</td>
+                                    <td>{{ loan.total_penalties_paid }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Due Amount:</td>
+                                    <td>{{ loan.due_amount }}</td>
+                                    <td>Late Payment Penalties:</td>
+                                    <td>{{ loan.late_payment_penalties }}</td>
+                                </tr>
+                                <tr>
+                                    <td>First Payment Date:</td>
+                                    <td>{{ loan.first_payment_date }}</td>
+                                    <td>Release Date:</td>
+                                    <td>{{ loan.release_date }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Approved Date:</td>
+                                    <td>{{ loan.approved_date }}</td>
+                                    <td>Approved By:</td>
+                                    <td>{{ loan.approved_by }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description:</td>
+                                    <td>{{ loan.description }}</td>
+                                    <td>Remarks:</td>
+                                    <td>{{ loan.remarks }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>                    
+                </div>
+            </div>
+
+            <!-- Approval Tab -->
+            <div class="tab-pane fade" id="approval" role="tabpanel" aria-labelledby="approval-tab">
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5>Loan Approval Details</h5>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Approval Status</th>
+                                    <td>{{ loan.status }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Approved By</th>
+                                    <td>{{ loan.approved_by }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Approved Date</th>
+                                    <td>{{ loan.approved_date }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {% if user_details.is_admin %}
+                    <div class="col-md-6">
+                        <!-- Add more approval details as needed -->
+                        <h5>Approve/Reject Loan</h5>
+                        <form method="post" action="{% url 'loan_approval' loan.id %}">
+                            {% csrf_token %}
+                        
+                            <div class="mb-3">
+                                <label for="id_approval_status" class="form-label">Approval Status:</label>
+                                <div class="form-check">
+                                    <input type="radio" name="approval_status" id="id_approval_status_approved" value="approved" class="form-check-input" {% if loan.status == 'approved' %}checked{% endif %} required>
+                                    <label for="id_approval_status_approved" class="form-check-label">Approved</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="approval_status" id="id_approval_status_rejected" value="rejected" class="form-check-input" {% if loan.status == 'rejected' %}checked{% endif %} required>
+                                    <label for="id_approval_status_rejected" class="form-check-label">Rejected</label>
+                                </div>
+                            </div>
+                        
+                            <div class="mb-3">
+                                <label for="id_comments" class="form-label">Remarks:</label>
+                                <textarea name="remarks" id="id_comments" class="form-control" rows="4" placeholder="Remarks">{% if loan.remarks %}{{ loan.remarks }}{% endif %}</textarea>
+                            </div>
+                        
+                            <button type="submit" class="btn btn-primary">Submit Approval</button>
+                        </form>
+                        
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Repayment Schedule tab -->
+            <div class="tab-pane fade" id="collateral" role="tabpanel" aria-labelledby="collateral-tab">
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h5>Repayment Schedule</h5>
+                        {% if repayment_schedule %}
+                      <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Installment Number</th>
+                                    <th>Installment Date</th>
+                                    <th>Principal Payment</th>
+                                    <th>Interest Payment</th>
+                                    <th>Remaining Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for installment in repayment_schedule %}
+                                    <tr>
+                                        <td>{{ installment.installment_number }}</td>
+                                        <td>{{ installment.installment_date }}</td>
+                                        <td>{{ installment.principal_payment }}</td>
+                                        <td>{{ installment.interest_payment }}</td>
+                                        <td>{{ installment.remaining_balance }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                      </div>
+                        {% else %}
+                            <p>No repayment schedule available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+        </div>
+
+            <!-- Repayments Tab -->
+            <div class="tab-pane fade" id="repayments" role="tabpanel" aria-labelledby="repayments-tab">
+                <div class="row mt-4">
+                    {% if user_details.is_admin %}
+                    <div class="col-md-3">
+                        <h5>Create Repayment  <br> Loan ID: {{ loan.id }}</h5>
+
+                        <form method="post" action="{% url 'create_loan_repayment' loan.id %}">
+                          {% csrf_token %}
+                    
+                          <div class="mb-3">
+                            <label for="id_repayment_date" class="form-label">Repayment Date:</label>
+                            <input type="date" name="repayment_date" id="id_repayment_date" class="form-control" required>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="id_principal_paid" class="form-label">Principal Paid:</label>
+                            <input type="number" name="principal_paid" id="id_principal_paid" class="form-control" step="0.01" required>
+                          </div>
+                    
+                          <div class="mb-3">
+                            <label for="id_interest_paid" class="form-label">Interest Paid:</label>
+                            <input type="number" name="interest_paid" id="id_interest_paid" class="form-control" step="0.01" required>
+                          </div>
+                    
+                          <div class="mb-3">
+                            <label for="id_penalties_paid" class="form-label">Penalties Paid:</label>
+                            <input type="number" name="penalties_paid" id="id_penalties_paid" class="form-control" step="0.01">
+                          </div>
+                    
+    
+                          <div class="mb-3">
+                            <label for="id_remarks" class="form-label">Remarks:</label>
+                            <textarea name="remarks" id="id_remarks" class="form-control" rows="4"></textarea>
+                          </div>
+                    
+                          <button type="submit" class="btn btn-primary">Submit Repayment</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-9">
+                        <h5>Repayment Details</h5>
+                        {% if repayments %}
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th>Repayment Date</th>
+                                <th>Principal Paid</th>
+                                <th>Interest Paid</th>
+                                <th>Penalties Paid</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for repayment in repayments %}
+                                <tr>
+                                  <td>{{ repayment.repayment_date }}</td>
+                                  <td>{{ repayment.principal_paid }}</td>
+                                  <td>{{ repayment.interest_paid }}</td>
+                                  <td>{{ repayment.penalties_paid }}</td>
+                                  {% if user.is_authenticated %}
+                                  <td>
+                                      <a class="btn btn-danger btn-sm" href="{% url 'delete_repayment' loan_id=loan.id repayment_id=repayment.id %}">Delete</a>
+                                  </td>
+                              {% endif %}
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        {% else %}
+                            <p>No repayment details available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}

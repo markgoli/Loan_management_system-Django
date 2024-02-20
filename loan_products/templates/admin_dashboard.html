@@ -1,0 +1,96 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+  <div class="row mb-3">
+    <div class="col">
+      <h2>Admin Dashboard</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Users</h5>
+          <p class="card-text">{{ users_count }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Loan Products</h5>
+          <p class="card-text">{{ loan_products_count }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Loans Given</h5>
+          <p class="card-text">{{ loans_count }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Principal</h5>
+          <p class="card-text">{{ total_principal }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card my-2">
+        <div class="card-body">
+          <h5 class="card-title">Total Interest</h5>
+          <p class="card-text">{{ total_interest }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="row mt-4">
+        <div class="col">
+          <h5>Loans:</h5>
+          {% if loans %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Loan ID</th>
+                        <th>Amount</th>
+                        <th>Loan Product</th>
+                        <th>Status</th>
+                        <!-- Add more table headers for other loan details -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in loans %}
+                        <tr>
+                            <td>{{ loan.id }}</td>
+                            <td>{{ loan.applied_amount }}</td>
+                            <td>{{ loan.loan_product.product_name }}</td>
+                            <td>{{ loan.status }}</td>
+                            <!-- Add more table cells for other loan details -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          {% else %}
+            <p>No loans found.</p>
+          {% endif %}
+        </div>
+      </div>
+    
+    
+  </div>
+
+  <!-- Add additional sections or information based on your requirements -->
+
+
+
+{% endblock %}

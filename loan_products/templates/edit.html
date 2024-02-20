@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Loan Product - Your Site{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col">
+      <h1>Edit Loan Product</h1>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'edit_loan_product' loan_product.id %}">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="id_product_name">Product Name:</label>
+      <input type="text" name="product_name" id="id_product_name" class="form-control" value="{{ loan_product.product_name }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_product_description">Product Description:</label>
+      <textarea name="product_description" id="id_product_description" class="form-control" required>{{ loan_product.product_description }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_minimum_amount">Minimum Amount:</label>
+      <input type="number" name="minimum_amount" id="id_minimum_amount" class="form-control" value="{{ loan_product.minimum_amount }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_maximum_amount">Maximum Amount:</label>
+      <input type="number" name="maximum_amount" id="id_maximum_amount" class="form-control" value="{{ loan_product.maximum_amount }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_interest_rate_per_year">Interest Rate:</label>
+      <input type="number" name="interest_rate_per_year" id="id_interest_rate_per_year" class="form-control" value="{{ loan_product.interest_rate_per_year }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_interest_type">Interest Type:</label>
+      <select name="interest_type" id="id_interest_type" class="form-control" required>
+        <option value="fixed" {% if loan_product.interest_type == 'fixed' %}selected{% endif %}>Fixed</option>
+        <option value="variable" {% if loan_product.interest_type == 'variable' %}selected{% endif %}>Variable</option>
+      </select>
+    </div>
+    
+    <div class="form-check">
+      <input type="checkbox" name="mortgage_amortization" id="id_mortgage_amortization" class="form-check-input" {% if loan_product.mortgage_amortization %}checked{% endif %}>
+      <label for="id_mortgage_amortization" class="form-check-label">Mortgage Amortization</label>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_max_term">Max Term:</label>
+      <input type="number" name="max_term" id="id_max_term" class="form-control" value="{{ loan_product.max_term }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_term_period">Term Period:</label>
+      <select name="term_period" id="id_term_period" class="form-control" required>
+
+        <option value="days" {% if loan_product.term_period == 'days' %}selected{% endif %}>Days</option>
+        <option value="weeks" {% if loan_product.term_period == 'weeks' %}selected{% endif %}>Weeks</option>
+        <option value="months" {% if loan_product.term_period == 'months' %}selected{% endif %}>Months</option>
+        <option value="years" {% if loan_product.term_period == 'years' %}selected{% endif %}>Years</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_late_payment_penalties">Late Payment Penalties:</label>
+      <input type="text" name="late_payment_penalties" id="id_late_payment_penalties" class="form-control" value="{{ loan_product.late_payment_penalties }}" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_status">Status:</label>
+      <select name="status" id="id_status" class="form-control" required>
+        <option value="active" {% if loan_product.status == 'active' %}selected{% endif %}>Active</option>
+        <option value="inactive" {% if loan_product.status == 'inactive' %}selected{% endif %}>Inactive</option>
+      </select>
+    </div>
+    
+    <div class="d-flex my-3 gap-2">
+      <button type="submit" class="btn btn-success mr-2">Update</button>
+      <a class="btn btn-secondary" href="{% url 'loan_products' %}">Done</a>
+    </div>
+  </form>
+  
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+
+{% block title %}Add New Loan Product - Your Site{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col">
+      <h1>Add New Loan Product</h1>
+    </div>
+  </div>
+
+  <form method="post" action="{% url 'new_loan_product' %}">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="id_product_name">Product Name:</label>
+      <input type="text" name="product_name" id="id_product_name" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_product_description">Product Description:</label>
+      <textarea name="product_description" id="id_product_description" class="form-control" required></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_minimum_amount">Minimum Amount:</label>
+      <input type="number" name="minimum_amount" id="id_minimum_amount" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_maximum_amount">Maximum Amount:</label>
+      <input type="number" name="maximum_amount" id="id_maximum_amount" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_interest_rate_per_year">Interest Rate:</label>
+      <input type="number" name="interest_rate_per_year" id="id_interest_rate_per_year" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_interest_type">Interest Type:</label>
+      <select name="interest_type" id="id_interest_type" class="form-control" required>
+        <option value="fixed">Fixed</option>
+        <option value="variable">Variable</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="id_max_term">Loan Period:</label>
+      <input type="number" name="max_term" id="id_max_term" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_term_period">Term Period:</label>
+      <select name="term_period" id="id_term_period" class="form-control" required>
+        <option value="days">Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_late_payment_penalties">Late Payment Penalties:</label>
+      <input type="number" name="late_payment_penalties" id="id_late_payment_penalties" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="id_status">Status:</label>
+      <select name="status" id="id_status" class="form-control" required>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+    </div>
+    
+    <div class="d-flex my-3 gap-2">
+      <button type="submit" class="btn btn-success mr-2">Save</button>
+      <a class="btn btn-secondary" href="{% url 'loan_products' %}">Cancel</a>
+    </div>
+  </form>
+  
+{% endblock %}

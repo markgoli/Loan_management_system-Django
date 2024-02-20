@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Apply for Loan - Your Site{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">    <img src="{% static 'images/Apply.png' %}" style="height: 50vh;" width="90%"  alt="">
+  </div>
+  <div class="col-md-6">
+    <div class="row mb-3">
+      <div class="col">
+        <h1>Apply for Loan</h1>
+      </div>
+    </div>
+  
+    <form method="post" action="{% url 'apply_for_loan' %}">
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        <label for="loan_product">Loan Product:</label>
+        <select class="form-select" name="loan_product" required>
+          <option value="">Select Loan Product</option>
+          {% for loan_product in loan_products %}
+            <option value="{{ loan_product.id }}">{{ loan_product.product_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label for="applied_amount">Requested Amount:</label>
+        <input type="number" class="form-control" name="applied_amount" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="description">Reason for request:</label>
+        <textarea class="form-control" name="description" rows="3" required></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label for="remarks">Collateral:</label>
+        <textarea class="form-control" name="remarks" rows="3"></textarea>
+      </div>
+  
+      <div class="d-flex my-3 gap-2">
+        <button type="submit" class="btn btn-success">Apply</button>
+        <a class="btn btn-secondary" href="{% url 'all_loans' %}">Cancel</a>
+      </div>
+    </form>
+    
+  </div>
+</div>
+
+{% endblock %}

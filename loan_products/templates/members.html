@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block title %}Members List{% endblock %}
+
+{% block content %}
+  <div class="row mb-3">
+    <div class="col">
+      <h2>Members List</h2>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Phone Number</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.phone_number }}</td>
+          <td>{{ user.gender }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

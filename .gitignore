@@ -1,0 +1,7 @@
+core/__pycache__/
+loan_products/__pycache__/
+loan_products/migrations/__pycache__/
+loans/__pycache__/
+loans/migrations/__pycache__/
+user_details/__pycache__/
+user_details/migrations/
